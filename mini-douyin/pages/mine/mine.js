@@ -17,14 +17,14 @@ Page({
         wx.showLoading({
             title: '请等待...',
         });
-        
+
         wx.request({
-            url: serverUrl + '/user/query?userId='+user.id,
+            url: serverUrl + '/user/query?userId=' + user.id,
             method: "POST",
             header: {
                 'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
                 console.log(res.data);
                 //   在成功后隐藏等待
                 wx.hideLoading();
@@ -32,13 +32,13 @@ Page({
                     var userInfo = res.data.data;
                     var faceUrl = "../resource/images/noneface.png"
                     // 判断是否有头像
-                    if(userInfo.faceImage != null && userInfo.faceImage != "" && userInfo.faceImage!=undefined){
+                    if (userInfo.faceImage != null && userInfo.faceImage != "" && userInfo.faceImage != undefined) {
                         faceUrl = serverUrl + userInfo.faceImage;
                     }
                     me.setData({
                         faceUrl: faceUrl,
                         fansCounts: userInfo.fansCounts,
-                        followCounts: userInfo.followCounts, 
+                        followCounts: userInfo.followCounts,
                         receiveLikeCounts: userInfo.receiveLikeCounts,
                         nickname: userInfo.nickname
                     })
@@ -114,15 +114,54 @@ Page({
 
                             var imageUrl = data.data;
                             me.setData({
-                                faceUrl: serverUrl+imageUrl
+                                faceUrl: serverUrl + imageUrl
                             })
-                        } else if (data.status == 500){
+                        } else if (data.status == 500) {
                             wx.showToast({
                                 title: data.msg,
                             })
-                        }                        
+                        }
                     }
                 })
+            }
+        })
+    },
+    uploadVideo: function() {
+        var me = this
+        wx.chooseVideo({
+            sourceType: ['album', 'camera'],
+            maxDuration: 60,
+            camera: 'back',
+            success: function(res) {
+                console.log(res)
+                var duration = res.duration
+                var tmpHeight = res.height
+                var tmpWidth = res.width
+                var tmpVideoUrl = res.tempFilePath
+                var tmpCoverUrl = res.thumbTempFilePath
+
+                if (duration > 11) {
+                    wx.showToast({
+                        title: '视频长度不能超过10秒...',
+                        icon: 'none',
+                        duration: 2500
+                    })
+                } else if (duration < 1) {
+                    wx.showToast({
+                        title: '视频长度太短，请上传超过1秒的视频...',
+                        icon: 'none',
+                        duration: 2500
+                    })
+                } else {
+                    // 打开选择bgm的页面
+                    wx.navigateTo({
+                        url: '../chooseBgm/chooseBgm?duration=' + duration +
+                            "&tmpHeight=" + tmpHeight +
+                            "&tmpWidth=" + tmpWidth +
+                            "&tmpVideoUrl=" + tmpVideoUrl +
+                            "&tmpCoverUrl=" + tmpCoverUrl
+                    })
+                }
             }
         })
     }

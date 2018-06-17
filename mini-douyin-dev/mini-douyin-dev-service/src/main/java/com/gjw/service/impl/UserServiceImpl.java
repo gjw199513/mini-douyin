@@ -1,7 +1,8 @@
-package com.gjw.service;
+package com.gjw.service.impl;
 
 import com.gjw.mapper.UsersMapper;
 import com.gjw.pojo.Users;
+import com.gjw.service.UserService;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
