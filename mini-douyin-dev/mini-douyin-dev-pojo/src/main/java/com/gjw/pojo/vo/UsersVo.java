@@ -1,16 +1,20 @@
-package com.gjw.pojo;
+package com.gjw.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
 
 @ApiModel(value = "用户对象", description = "这是用户对象")
-public class Users {
+public class UsersVo {
 
     @ApiModelProperty(hidden = true)
-    @Id
     private String id;
+
+    @ApiModelProperty(hidden = true)
+    private String userToken;
 
     /**
      * 用户名
@@ -22,13 +26,14 @@ public class Users {
      * 密码
      */
     @ApiModelProperty(value = "密码", name = "password", example = "123456", required = true)
+    // 返回值忽略密码
+    @JsonIgnore
     private String password;
 
     /**
      * 我的头像，如果没有默认给一张
      */
     @ApiModelProperty(hidden = true)
-    @Column(name = "face_image")
     private String faceImage;
 
     /**
@@ -40,21 +45,18 @@ public class Users {
      * 我的粉丝数量
      */
     @ApiModelProperty(hidden = true)
-    @Column(name = "fans_counts")
     private Integer fansCounts;
 
     /**
      * 我关注的人总数
      */
     @ApiModelProperty(hidden = true)
-    @Column(name = "follow_counts")
     private Integer followCounts;
 
     /**
      * 我接受到的赞美/收藏 的数量
      */
     @ApiModelProperty(hidden = true)
-    @Column(name = "receive_like_counts")
     private Integer receiveLikeCounts;
 
     /**
@@ -69,6 +71,14 @@ public class Users {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     /**
