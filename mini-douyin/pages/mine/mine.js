@@ -1,4 +1,4 @@
-// var videoUtil = require('../../utils/videoUtil.js')
+var videoUtil = require('../../utils/videoUtil.js')
 
 const app = getApp()
 
@@ -11,7 +11,10 @@ Page({
 
     onLoad: function(params) {
         var me = this
-        var user = app.userInfo
+        // var user = app.userInfo
+        // fixme 修改原有的全局对象为本地缓存
+        var user = app.getGlobalUserInfo()
+
         var serverUrl = app.serverUrl;
 
         wx.showLoading({
@@ -48,7 +51,8 @@ Page({
     },
 
     logout: function() {
-        var user = app.userInfo;
+        // var user = app.userInfo;
+        var user = app.getGlobalUserInfo()        
         var serverUrl = app.serverUrl;
         wx.showLoading({
             title: '请等待...',
@@ -70,7 +74,9 @@ Page({
                         icon: 'success',
                         duration: 2000
                     });
-                    app.userInfo = null;
+                    // app.userInfo = null;
+                    // 注销以后，清空缓存
+                    wx.removeStorageSync("userInfo")
                     wx.navigateTo({
                         url: '../userLogin/login',
                     })
@@ -93,9 +99,11 @@ Page({
                     title: '上传中...',
                 })
                 var serverUrl = app.serverUrl
+                // fixme 修改原有的全局对象为本地缓存
+                var userInfo = app.getGlobalUserInfo()
                 // 上传头像
                 wx.uploadFile({
-                    url: serverUrl + '/user/uploadFace?userId=' + app.userInfo.id,
+                    url: serverUrl + '/user/uploadFace?userId=' + userInfo.id,  // app.userInfo.id
                     filePath: tempFilePaths[0],
                     name: 'file',
                     header: {
@@ -127,6 +135,8 @@ Page({
         })
     },
     uploadVideo: function() {
+        // videoUtil.uploadVideo()
+        
         var me = this
         wx.chooseVideo({
             sourceType: ['album', 'camera'],

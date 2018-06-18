@@ -8,11 +8,14 @@ import com.gjw.service.VideoService;
 import com.gjw.utils.FetchVideoCover;
 import com.gjw.utils.IMoocJSONResult;
 import com.gjw.utils.MergeVideoMp3;
+import com.gjw.utils.PagedResult;
 import io.swagger.annotations.*;
+import io.swagger.models.auth.In;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -210,5 +213,32 @@ public class VideoController extends BasicController {
 
         videoService.updateVideo(videoId, uploadPathDB);
         return IMoocJSONResult.ok(videoId);
+    }
+
+
+    /**
+     * 分页和搜素查询视频列表
+     * @param video
+     * @param isSaveRecord： 1 - 需要保存
+     *                      0 - 不需要保存，或者为空的时候
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/showAll")
+    public IMoocJSONResult showAll(@RequestBody Videos video, Integer isSaveRecord,
+                                   Integer page) throws Exception{
+
+        if(page == null){
+            page = 1;
+        }
+        PagedResult result = videoService.getAllVideos(video, isSaveRecord, page, PAGE_SIZE);
+        return IMoocJSONResult.ok(result);
+    }
+
+    @PostMapping(value = "/hot")
+    public IMoocJSONResult hot() throws Exception{
+
+        return IMoocJSONResult.ok(videoService.getHotwords());
     }
 }
