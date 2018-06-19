@@ -1,6 +1,9 @@
 package com.gjw;
 
+import com.gjw.controller.intercept.MiniInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -23,5 +26,21 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("classpath:/META-INF/resources/")
                 // 为图片加入访问路径
                 .addResourceLocations("file:G:/java程序/mini-douyin/upload/");
+    }
+
+    // 在spring中，对拦截器进行注册
+    @Bean
+    public MiniInterceptor miniInterceptor(){
+        return new MiniInterceptor();
+    }
+
+    // 把其注入拦截器中
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 将拦截器进行注册
+        registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**")
+                                .addPathPatterns("/video/upload","/video/uplaodCover")
+                                                    .addPathPatterns("/bgm/**");
+        super.addInterceptors(registry);
     }
 }

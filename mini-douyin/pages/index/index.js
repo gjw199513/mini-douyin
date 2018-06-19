@@ -107,6 +107,4 @@ Page({
             url: '../videoInfo/videoInfo?videoInfo=' + videoInfo,
         })
     }
-
-
 })
