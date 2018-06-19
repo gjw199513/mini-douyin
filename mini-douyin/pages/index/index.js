@@ -34,7 +34,7 @@ Page({
         me.getAllVideoList(page, isSaveRecord)
     },
 
-    getAllVideoList: function (page, isSaveRecord) {
+    getAllVideoList: function(page, isSaveRecord) {
         var me = this;
         var serverUrl = app.serverUrl
         wx.showLoading({
@@ -94,6 +94,18 @@ Page({
         }
         var page = currentPage + 1;
         me.getAllVideoList(page, 0)
+    },
+    showVideoInfo: function(e) {
+        var me = this
+        var videoList = me.data.videoList
+        // 获取下标
+        var arrindex = e.target.dataset.arrindex
+        // 获取视频信息，将json转换为字符串
+        var videoInfo = JSON.stringify(videoList[arrindex])
+
+        wx.redirectTo({
+            url: '../videoInfo/videoInfo?videoInfo=' + videoInfo,
+        })
     }
 
 

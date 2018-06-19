@@ -1,6 +1,6 @@
 //app.js
 App({
-    serverUrl: "http://192.168.1.107:8080",
+    serverUrl: "http://127.0.0.1:8080",
     userInfo: null,
 
     // 将userinfo设置为缓存的全局方法

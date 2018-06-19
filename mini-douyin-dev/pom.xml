@@ -12,6 +12,7 @@
 		<module>mini-douyin-dev-pojo</module>
 		<module>mini-douyin-dev-mapper</module>
 		<module>mini-douyin-dev-service</module>
+		<module>mini-douyin-dev-mini-api</module>
 	</modules>
     <packaging>pom</packaging>
 
