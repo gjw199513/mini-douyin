@@ -202,7 +202,7 @@ Page({
                 } else if (res.tapIndex == 1) {
                     // 举报
                     var videoInfo = JSON.stringify(me.data.videoInfo);
-                    var realUrl = '../videoinfo/videoinfo#videoInfo@' + videoInfo;
+                    var realUrl = '../videoInfo/videoInfo#videoInfo@' + videoInfo;
 
                     if (user == null || user == undefined || user == '') {
                         wx.navigateTo({
