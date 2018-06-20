@@ -30,10 +30,32 @@
 --                 模糊查询需要使用$
                 and v.video_desc like '%${videoDesc}%'
             </if>
+            <if test="userId != null and userId != ''">
+                and v.user_id = #{userId}
+            </if>
         </where>
         order by v.create_time desc
     </select>
 
+  	<!-- 查询我关注的人发的视频 -->
+	<select id="queryMyFollowVideos" resultMap="BaseResultMap" parameterType="String">
+		select v.*,u.face_image as face_image,u.nickname as nickname from videos v
+		left join users u on v.user_id = u.id
+		where
+			v.user_id in (select uf.user_id from users_fans uf where uf.fan_id = #{userId})
+			and v.status = 1
+			order by v.create_time desc
+	</select>
+
+	<!-- 查询我喜欢的视频 -->
+	<select id="queryMyLikeVideos" resultMap="BaseResultMap" parameterType="String">
+		select v.*,u.face_image as face_image,u.nickname as nickname from videos v
+		left join users u on v.user_id = u.id
+		where
+			v.id in (select ulv.video_id from users_like_videos ulv where ulv.user_id = #{userId})
+			and v.status = 1
+			order by v.create_time desc
+	</select>
     <update id="addVideoLikeCount" parameterType="string">
         update videos set like_counts=like_counts+1 where id = #{videoId}
     </update>

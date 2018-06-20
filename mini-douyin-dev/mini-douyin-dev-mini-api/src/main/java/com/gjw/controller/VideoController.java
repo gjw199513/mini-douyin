@@ -224,16 +224,74 @@ public class VideoController extends BasicController {
      * @return
      * @throws Exception
      */
-    @PostMapping(value = "/showAll")
-    public IMoocJSONResult showAll(@RequestBody Videos video, Integer isSaveRecord,
-                                   Integer page) throws Exception{
+	@PostMapping(value="/showAll")
+	public IMoocJSONResult showAll(@RequestBody Videos video, Integer isSaveRecord,
+			Integer page, Integer pageSize) throws Exception {
 
-        if(page == null){
-            page = 1;
-        }
-        PagedResult result = videoService.getAllVideos(video, isSaveRecord, page, PAGE_SIZE);
-        return IMoocJSONResult.ok(result);
-    }
+		if (page == null) {
+			page = 1;
+		}
+
+		if (pageSize == null) {
+			pageSize = PAGE_SIZE;
+		}
+
+		PagedResult result = videoService.getAllVideos(video, isSaveRecord, page, pageSize);
+		return IMoocJSONResult.ok(result);
+	}
+
+    /**
+     * 我关注的人发的视频
+     * @param userId
+     * @param page
+     * @return
+     * @throws Exception
+     */
+	@PostMapping("/showMyFollow")
+	public IMoocJSONResult showMyFollow(String userId, Integer page) throws Exception {
+
+		if (StringUtils.isBlank(userId)) {
+			return IMoocJSONResult.ok();
+		}
+
+		if (page == null) {
+			page = 1;
+		}
+
+		int pageSize = 6;
+
+		PagedResult videosList = videoService.queryMyFollowVideos(userId, page, pageSize);
+
+		return IMoocJSONResult.ok(videosList);
+	}
+
+    /**
+     * 我收藏(点赞)过的视频列表
+     * @param userId
+     * @param page
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+	@PostMapping("/showMyLike")
+	public IMoocJSONResult showMyLike(String userId, Integer page, Integer pageSize) throws Exception {
+
+		if (StringUtils.isBlank(userId)) {
+			return IMoocJSONResult.ok();
+		}
+
+		if (page == null) {
+			page = 1;
+		}
+
+		if (pageSize == null) {
+			pageSize = 6;
+		}
+
+		PagedResult videosList = videoService.queryMyLikeVideos(userId, page, pageSize);
+
+		return IMoocJSONResult.ok(videosList);
+	}
 
     @PostMapping(value = "/hot")
     public IMoocJSONResult hot() throws Exception{

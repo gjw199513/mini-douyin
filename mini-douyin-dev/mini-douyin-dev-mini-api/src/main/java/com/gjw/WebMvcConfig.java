@@ -25,7 +25,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 // 为swagger加入访问路径
                 .addResourceLocations("classpath:/META-INF/resources/")
                 // 为图片加入访问路径
-                .addResourceLocations("file:D:/java程序/mini-douyin/upload/");
+                .addResourceLocations("file:G:/java程序/mini-douyin/upload/");
     }
 
     // 在spring中，对拦截器进行注册

@@ -1,6 +1,7 @@
 package com.gjw.controller;
 
 import com.gjw.pojo.Users;
+import com.gjw.pojo.UsersReport;
 import com.gjw.pojo.vo.PublisherVideo;
 import com.gjw.pojo.vo.UsersVo;
 import com.gjw.service.UserService;
@@ -12,10 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -98,7 +96,7 @@ public class UserController extends BasicController {
     @ApiImplicitParam(name = "userId", value = "用户id", required = true,
             dataType = "String", paramType = "query")
     @PostMapping("/query")
-    public IMoocJSONResult query(String userId) throws Exception{
+    public IMoocJSONResult query(String userId, String fanId) throws Exception{
 
         if(StringUtils.isBlank(userId)){
             return IMoocJSONResult.errorMsg("用户id不能为空");
@@ -107,6 +105,8 @@ public class UserController extends BasicController {
         Users userInfo = userService.queryUserInfo(userId);
         UsersVo userVo = new UsersVo();
         BeanUtils.copyProperties(userInfo, userVo);
+
+        userVo.setFollow(userService.queryIfFollow(userId, fanId));
         return IMoocJSONResult.ok(userVo);
     }
 
@@ -162,4 +162,13 @@ public class UserController extends BasicController {
         userService.deleteUserFanRelation(userId, fanId);
         return IMoocJSONResult.ok("取消关注成功...");
     }
+
+    @PostMapping("/reportUser")
+	public IMoocJSONResult reportUser(@RequestBody UsersReport usersReport) throws Exception {
+
+		// 保存举报信息
+		userService.reportUser(usersReport);
+
+		return IMoocJSONResult.errorMsg("举报成功...有你平台变得更美好...");
+	}
 }

@@ -1,6 +1,7 @@
 package com.gjw.service;
 
 import com.gjw.pojo.Users;
+import com.gjw.pojo.UsersReport;
 
 /**
  * Created by gjw19 on 2018/6/16.
@@ -63,4 +64,18 @@ public interface UserService {
      */
     public void deleteUserFanRelation(String userId, String fanId);
 
+    /**
+     * 查询用户是否关注
+     * @param userId
+     * @param fanId
+     * @return
+     */
+    public boolean queryIfFollow(String userId, String fanId);
+
+
+    /**
+     * 举报用户
+     * @param userReport
+     */
+    public void reportUser(UsersReport userReport);
 }

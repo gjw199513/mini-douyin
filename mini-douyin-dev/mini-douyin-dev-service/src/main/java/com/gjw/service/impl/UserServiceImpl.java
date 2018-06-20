@@ -3,9 +3,11 @@ package com.gjw.service.impl;
 import com.gjw.mapper.UsersFansMapper;
 import com.gjw.mapper.UsersLikeVideosMapper;
 import com.gjw.mapper.UsersMapper;
+import com.gjw.mapper.UsersReportMapper;
 import com.gjw.pojo.Users;
 import com.gjw.pojo.UsersFans;
 import com.gjw.pojo.UsersLikeVideos;
+import com.gjw.pojo.UsersReport;
 import com.gjw.service.UserService;
 import com.gjw.utils.IMoocJSONResult;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +38,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UsersLikeVideosMapper usersLikeVideosMapper;
+
+    @Autowired
+    private UsersReportMapper usersReportMapper;
 
     @Autowired
     private Sid sid;
@@ -199,4 +205,44 @@ public class UserServiceImpl implements UserService {
         usersMapper.reduceFansCount(userId);
         usersMapper.reduceFollersCount(fanId);
     }
+
+    /**
+     * 查询用户是否关注
+     *
+     * @param userId
+     * @param fanId
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public boolean queryIfFollow(String userId, String fanId) {
+        Example example = new Example(UsersFans.class);
+        Criteria criteria = example.createCriteria();
+
+        criteria.andEqualTo("userId", userId);
+        criteria.andEqualTo("fanId", fanId);
+
+        List<UsersFans> list = usersFansMapper.selectByExample(example);
+
+        if(list != null && !list.isEmpty() && list.size() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 举报用户
+     *
+     * @param userReport
+     */
+	@Transactional(propagation = Propagation.REQUIRED)
+	@Override
+	public void reportUser(UsersReport userReport) {
+
+		String urId = sid.nextShort();
+		userReport.setId(urId);
+		userReport.setCreateDate(new Date());
+
+		usersReportMapper.insert(userReport);
+	}
 }

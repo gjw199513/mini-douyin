@@ -35,6 +35,25 @@ public interface VideoService {
     public PagedResult getAllVideos(Videos video, Integer isSaveRecord,
                                     Integer page, Integer pageSize);
 
+
+    /**
+     * 查询我喜欢的视频列表
+     * @param userId
+     * @param page
+     * @param pageSize
+     * @return
+     */
+	public PagedResult queryMyLikeVideos(String userId, Integer page, Integer pageSize);
+
+    /**
+     * 查询我关注的人的视频列表
+     * @param userId
+     * @param page
+     * @param pageSize
+     * @return
+     */
+	public PagedResult queryMyFollowVideos(String userId, Integer page, Integer pageSize);
+
     /**
      * 获取热搜词列表
      * @return
