@@ -11,10 +11,19 @@ Page({
 
     onLoad: function(params) {
         var me = this
+
+        var publisherId = params.publisherId
+
         // var user = app.userInfo
         // fixme 修改原有的全局对象为本地缓存
         var user = app.getGlobalUserInfo()
+        var userId = user.id
 
+        // 传入了publisherId，则认为跳入视频发布者的个人页
+        var publisherId = params.publisherId
+        if(publisherId != null && publisherId != '' && publisherId != undefined){
+            userId = publisherId
+        }
         var serverUrl = app.serverUrl;
 
         wx.showLoading({
@@ -22,7 +31,7 @@ Page({
         });
 
         wx.request({
-            url: serverUrl + '/user/query?userId=' + user.id,
+            url: serverUrl + '/user/query?userId=' + userId,
             method: "POST",
             header: {
                 'content-type': 'application/json', // 默认值

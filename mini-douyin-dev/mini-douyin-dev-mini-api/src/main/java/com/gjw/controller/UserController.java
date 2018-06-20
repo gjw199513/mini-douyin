@@ -134,4 +134,32 @@ public class UserController extends BasicController {
 
         return IMoocJSONResult.ok(bean);
     }
+
+//    @ApiOperation(value = "查询用户信息", notes = "查询用户信息的接口")
+//    @ApiImplicitParam(name = "userId", value = "用户id", required = true,
+//            dataType = "String", paramType = "query")
+    @PostMapping("/beyourfans")
+    public IMoocJSONResult beyourfans(String userId, String fanId) throws Exception{
+
+        if(StringUtils.isBlank(userId) || StringUtils.isBlank(fanId)){
+            return IMoocJSONResult.errorMsg("");
+        }
+
+        userService.saveUserFanRelation(userId, fanId);
+        return IMoocJSONResult.ok("关注成功...");
+    }
+
+//    @ApiOperation(value = "查询用户信息", notes = "查询用户信息的接口")
+//    @ApiImplicitParam(name = "userId", value = "用户id", required = true,
+//            dataType = "String", paramType = "query")
+    @PostMapping("/dontbeyourfans")
+    public IMoocJSONResult dontbeyourfans(String userId, String fanId) throws Exception{
+
+        if(StringUtils.isBlank(userId) || StringUtils.isBlank(fanId)){
+            return IMoocJSONResult.errorMsg("");
+        }
+
+        userService.deleteUserFanRelation(userId, fanId);
+        return IMoocJSONResult.ok("取消关注成功...");
+    }
 }

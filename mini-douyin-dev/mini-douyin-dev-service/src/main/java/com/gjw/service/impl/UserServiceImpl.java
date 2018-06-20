@@ -1,8 +1,10 @@
 package com.gjw.service.impl;
 
+import com.gjw.mapper.UsersFansMapper;
 import com.gjw.mapper.UsersLikeVideosMapper;
 import com.gjw.mapper.UsersMapper;
 import com.gjw.pojo.Users;
+import com.gjw.pojo.UsersFans;
 import com.gjw.pojo.UsersLikeVideos;
 import com.gjw.service.UserService;
 import com.gjw.utils.IMoocJSONResult;
@@ -29,10 +31,14 @@ public class UserServiceImpl implements UserService {
     private UsersMapper usersMapper;
 
     @Autowired
+    private UsersFansMapper usersFansMapper;
+
+    @Autowired
     private UsersLikeVideosMapper usersLikeVideosMapper;
 
     @Autowired
     private Sid sid;
+
     /**
      * 判断用户名是否存在
      *
@@ -83,7 +89,7 @@ public class UserServiceImpl implements UserService {
         // 添加查询条件的通用方法
         Criteria criteria = userExample.createCriteria();
         criteria.andEqualTo("username", username);
-        criteria.andEqualTo("password",password);
+        criteria.andEqualTo("password", password);
         Users result = usersMapper.selectOneByExample(userExample);
         return result;
     }
@@ -96,7 +102,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void updateUserInfo(Users user) {
-                // 通用的对象，可以创建任意类型
+        // 通用的对象，可以创建任意类型
         Example userExample = new Example(Users.class);
 
         // 添加查询条件的通用方法
@@ -133,7 +139,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public boolean isUserLikeVideo(String userId, String videoId) {
-        if(StringUtils.isBlank(userId) || StringUtils.isBlank(videoId)){
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(videoId)) {
             return false;
         }
 
@@ -145,11 +151,52 @@ public class UserServiceImpl implements UserService {
 
         List<UsersLikeVideos> list = usersLikeVideosMapper.selectByExample(example);
 
-        if(list != null && list.size()>0){
+        if (list != null && list.size() > 0) {
             return true;
         }
         return false;
     }
 
+    /**
+     * 增加用户和粉丝的关系
+     *
+     * @param userId
+     * @param fanId
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void saveUserFanRelation(String userId, String fanId) {
+        String relId = sid.nextShort();
 
+        UsersFans usersFan = new UsersFans();
+        usersFan.setId(relId);
+        usersFan.setUserId(userId);
+        usersFan.setFanId(fanId);
+
+        usersFansMapper.insert(usersFan);
+
+        usersMapper.addFansCount(userId);
+        usersMapper.addFollersCount(fanId);
+    }
+
+    /**
+     * 删除用户和粉丝的关系
+     *
+     * @param userId
+     * @param fanId
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void deleteUserFanRelation(String userId, String fanId) {
+        Example example = new Example(UsersFans.class);
+        Criteria criteria = example.createCriteria();
+
+        criteria.andEqualTo("userId", userId);
+        criteria.andEqualTo("fanId", fanId);
+
+        usersFansMapper.deleteByExample(example);
+
+        usersMapper.reduceFansCount(userId);
+        usersMapper.reduceFollersCount(fanId);
+    }
 }

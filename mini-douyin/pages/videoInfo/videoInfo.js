@@ -89,6 +89,23 @@ Page({
             videoUtil.uploadVideo()
         }
     },
+    showPublisher: function () {
+        var me = this
+        var user = app.getGlobalUserInfo()
+
+        var videoInfo = me.data.videoInfo
+        var realUrl = '../mine/mine#publisher@' + videoInfo.userId
+
+        if (user == null || user == undefined || user == "") {
+            wx.navigateTo({
+                url: '../userLogin/login?redirectUrl=' + realUrl,
+            })
+        } else {
+            wx.navigateTo({
+                url: '../mine/mine?publisherId='+videoInfo.userId,
+            })
+        }
+    },
 
     showIndex: function() {
         wx.redirectTo({
