@@ -25,7 +25,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 // 为swagger加入访问路径
                 .addResourceLocations("classpath:/META-INF/resources/")
                 // 为图片加入访问路径
-                .addResourceLocations("file:G:/java程序/mini-douyin/upload/");
+                .addResourceLocations("file:D:/java程序/mini-douyin/upload/");
     }
 
     // 在spring中，对拦截器进行注册
@@ -39,8 +39,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         // 将拦截器进行注册
         registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**")
-                                .addPathPatterns("/video/upload","/video/uplaodCover")
-                                                    .addPathPatterns("/bgm/**");
+                                .addPathPatterns("/video/upload","/video/uplaodCover",
+                                                "/video/userLike","/video/userUnLike")
+                                                    .addPathPatterns("/bgm/**")
+                                                    .excludePathPatterns("/user/queryPublisher");
         super.addInterceptors(registry);
     }
 }

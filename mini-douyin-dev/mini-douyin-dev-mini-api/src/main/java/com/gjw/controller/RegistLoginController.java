@@ -2,9 +2,9 @@ package com.gjw.controller;
 
 import com.gjw.pojo.Users;
 import com.gjw.pojo.vo.UsersVo;
+import com.gjw.service.UserService;
 import com.gjw.utils.IMoocJSONResult;
 import com.gjw.utils.MD5Utils;
-import com.gjw.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

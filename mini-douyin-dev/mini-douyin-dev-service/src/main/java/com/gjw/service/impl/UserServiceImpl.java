@@ -1,8 +1,12 @@
 package com.gjw.service.impl;
 
+import com.gjw.mapper.UsersLikeVideosMapper;
 import com.gjw.mapper.UsersMapper;
 import com.gjw.pojo.Users;
+import com.gjw.pojo.UsersLikeVideos;
 import com.gjw.service.UserService;
+import com.gjw.utils.IMoocJSONResult;
+import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
+
+import java.util.List;
+
 /**
  * Created by gjw19 on 2018/6/16.
  */
@@ -20,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UsersMapper usersMapper;
+
+    @Autowired
+    private UsersLikeVideosMapper usersLikeVideosMapper;
 
     @Autowired
     private Sid sid;
@@ -112,5 +122,34 @@ public class UserServiceImpl implements UserService {
         Users user = usersMapper.selectOneByExample(userExample);
         return user;
     }
+
+    /**
+     * 查询用户是否喜欢点赞视频
+     *
+     * @param userId
+     * @param videoId
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public boolean isUserLikeVideo(String userId, String videoId) {
+        if(StringUtils.isBlank(userId) || StringUtils.isBlank(videoId)){
+            return false;
+        }
+
+        Example example = new Example(UsersLikeVideos.class);
+        Criteria criteria = example.createCriteria();
+
+        criteria.andEqualTo("userId", userId);
+        criteria.andEqualTo("videoId", videoId);
+
+        List<UsersLikeVideos> list = usersLikeVideosMapper.selectByExample(example);
+
+        if(list != null && list.size()>0){
+            return true;
+        }
+        return false;
+    }
+
 
 }

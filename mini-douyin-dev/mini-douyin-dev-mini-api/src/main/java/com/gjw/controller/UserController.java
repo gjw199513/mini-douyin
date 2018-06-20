@@ -1,10 +1,10 @@
 package com.gjw.controller;
 
 import com.gjw.pojo.Users;
+import com.gjw.pojo.vo.PublisherVideo;
 import com.gjw.pojo.vo.UsersVo;
 import com.gjw.service.UserService;
 import com.gjw.utils.IMoocJSONResult;
-import com.gjw.utils.MD5Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -12,14 +12,16 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
 
 @RestController
 @Api(value = "用户相关业务的接口", tags = {"用户相关业务的controller"})
@@ -41,7 +43,7 @@ public class UserController extends BasicController {
         }
 
         // 文件保存的命名空间
-        String fileSpace = "G:/java程序/mini-douyin/upload";
+        String fileSpace = FILE_SPACE;
         // 保存到数据库中的相对路径
         String uploadPathDB = "/" + userId + "/face";
         FileOutputStream fileOutputStream = null;
@@ -95,7 +97,7 @@ public class UserController extends BasicController {
     @ApiOperation(value = "查询用户信息", notes = "查询用户信息的接口")
     @ApiImplicitParam(name = "userId", value = "用户id", required = true,
             dataType = "String", paramType = "query")
-    @PostMapping("query")
+    @PostMapping("/query")
     public IMoocJSONResult query(String userId) throws Exception{
 
         if(StringUtils.isBlank(userId)){
@@ -106,5 +108,30 @@ public class UserController extends BasicController {
         UsersVo userVo = new UsersVo();
         BeanUtils.copyProperties(userInfo, userVo);
         return IMoocJSONResult.ok(userVo);
+    }
+
+//    @ApiOperation(value = "查询用户信息", notes = "查询用户信息的接口")
+//    @ApiImplicitParam(name = "userId", value = "用户id", required = true,
+//            dataType = "String", paramType = "query")
+    @PostMapping("/queryPublisher")
+    public IMoocJSONResult queryPublisher(String loginUserId, String videoId, String publishUserId) throws Exception{
+
+        if(StringUtils.isBlank(publishUserId)){
+            return IMoocJSONResult.errorMsg("");
+        }
+
+        // 1. 查询视频发布者的信息
+        Users userInfo = userService.queryUserInfo(publishUserId);
+        UsersVo publisher = new UsersVo();
+        BeanUtils.copyProperties(userInfo, publisher);
+
+        // 2. 查询当前登陆者和视频的点赞关系
+        boolean userLikeVideo = userService.isUserLikeVideo(loginUserId, videoId);
+
+        PublisherVideo bean = new PublisherVideo();
+        bean.setPublisher(publisher);
+        bean.setUserLikeVideo(userLikeVideo);
+
+        return IMoocJSONResult.ok(bean);
     }
 }

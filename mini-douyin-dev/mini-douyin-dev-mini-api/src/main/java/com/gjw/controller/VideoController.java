@@ -10,7 +10,6 @@ import com.gjw.utils.IMoocJSONResult;
 import com.gjw.utils.MergeVideoMp3;
 import com.gjw.utils.PagedResult;
 import io.swagger.annotations.*;
-import io.swagger.models.auth.In;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -238,7 +237,18 @@ public class VideoController extends BasicController {
 
     @PostMapping(value = "/hot")
     public IMoocJSONResult hot() throws Exception{
-
         return IMoocJSONResult.ok(videoService.getHotwords());
+    }
+
+    @PostMapping(value = "/userLike")
+    public IMoocJSONResult userLike(String userId, String videoId, String videoCreaterId) throws Exception{
+        videoService.userLikeVideo(userId, videoId, videoCreaterId);
+        return IMoocJSONResult.ok();
+    }
+
+    @PostMapping(value = "/userUnLike")
+    public IMoocJSONResult userUnLike(String userId, String videoId, String videoCreaterId) throws Exception{
+        videoService.userUnLikeVideo(userId, videoId, videoCreaterId);
+        return IMoocJSONResult.ok();
     }
 }
