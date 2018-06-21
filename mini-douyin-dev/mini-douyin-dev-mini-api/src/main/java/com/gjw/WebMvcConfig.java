@@ -35,7 +35,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         // 将拦截器进行注册
         registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**")
                                 .addPathPatterns("/video/upload","/video/uplaodCover",
-                                                "/video/userLike","/video/userUnLike")
+                                        "/video/userLike", "/video/userUnLike", "/video/saveComment")
                                                     .addPathPatterns("/bgm/**")
                                                     .excludePathPatterns("/user/queryPublisher");
         super.addInterceptors(registry);

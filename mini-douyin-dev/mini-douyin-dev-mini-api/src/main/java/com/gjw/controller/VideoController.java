@@ -2,6 +2,7 @@ package com.gjw.controller;
 
 import com.gjw.enums.VideoStatusEnum;
 import com.gjw.pojo.Bgm;
+import com.gjw.pojo.Comments;
 import com.gjw.pojo.Videos;
 import com.gjw.service.BgmService;
 import com.gjw.service.VideoService;
@@ -308,5 +309,37 @@ public class VideoController extends BasicController {
     public IMoocJSONResult userUnLike(String userId, String videoId, String videoCreaterId) throws Exception{
         videoService.userUnLikeVideo(userId, videoId, videoCreaterId);
         return IMoocJSONResult.ok();
+    }
+
+    @PostMapping("/saveComment")
+    public IMoocJSONResult saveComment(@RequestBody Comments comment,
+                                       String fatherCommentId, String toUserId) throws Exception {
+        if (fatherCommentId != null && toUserId != null) {
+            comment.setFatherCommentId(fatherCommentId);
+            comment.setToUserId(toUserId);
+        }
+        videoService.saveComment(comment);
+        return IMoocJSONResult.ok();
+    }
+
+    @PostMapping("/getVideoComments")
+    public IMoocJSONResult getVideoComments(String videoId, Integer page, Integer pageSize) throws Exception {
+
+        if (StringUtils.isBlank(videoId)) {
+            return IMoocJSONResult.ok();
+        }
+
+        // 分页查询视频列表，时间顺序倒序排序
+        if (page == null) {
+            page = 1;
+        }
+
+        if (pageSize == null) {
+            pageSize = 10;
+        }
+
+        PagedResult list = videoService.getAllComments(videoId, page, pageSize);
+
+        return IMoocJSONResult.ok(list);
     }
 }

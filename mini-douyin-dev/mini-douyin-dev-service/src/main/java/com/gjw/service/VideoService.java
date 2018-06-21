@@ -1,6 +1,7 @@
 package com.gjw.service;
 
 import com.gjw.pojo.Bgm;
+import com.gjw.pojo.Comments;
 import com.gjw.pojo.Videos;
 import com.gjw.utils.PagedResult;
 
@@ -75,4 +76,21 @@ public interface VideoService {
      * @param videoCreaterId
      */
     public void userUnLikeVideo(String userId, String videoId, String videoCreaterId);
+
+    /**
+     * 保存用户评论
+     *
+     * @param comment
+     */
+    public void saveComment(Comments comment);
+
+    /**
+     * 留言分页
+     *
+     * @param videoId
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public PagedResult getAllComments(String videoId, Integer page, Integer pageSize);
 }
