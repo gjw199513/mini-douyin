@@ -105,7 +105,7 @@
             console.log(data);
 
             if (data.result.status != '200') {
-                alert("长传失败...");
+                alert("上传失败...");
             } else {
                 var bgmServer = $("#bgmServer").val();
                 var url = bgmServer + data.result.data;

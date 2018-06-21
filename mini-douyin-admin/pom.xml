@@ -13,9 +13,6 @@
         <module>mini-douyin-admin-mapper</module>
         <module>mini-douyin-admin-service</module>
         <module>mini-douyin-admin-mng</module>
-        <module>mini-douyin-admin-mng</module>
-        <module>mini-douyin-admin-mng</module>
-        <module>mini-douyin-admin-mng</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -276,22 +273,22 @@
                 </configuration>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <!-- 配置Tomcat插件 -->
-                <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.2</version>
-                </plugin>
+        <!--<pluginManagement>-->
+        <!--<plugins>-->
+        <!--&lt;!&ndash; 配置Tomcat插件 &ndash;&gt;-->
+        <!--<plugin>-->
+        <!--<groupId>org.apache.tomcat.maven</groupId>-->
+        <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
+        <!--<version>2.2</version>-->
+        <!--</plugin>-->
 
-                <!-- 配置sts插件 -->
+        <!--&lt;!&ndash; 配置sts插件 &ndash;&gt;-->
                 <!--<plugin>-->
                 <!--<artifactId>maven-eclipse-plugin</artifactId>-->
                 <!--<version>2.9</version>-->
                 <!--</plugin>-->
-            </plugins>
-        </pluginManagement>
+        <!--</plugins>-->
+        <!--</pluginManagement>-->
 
     </build>
 </project>

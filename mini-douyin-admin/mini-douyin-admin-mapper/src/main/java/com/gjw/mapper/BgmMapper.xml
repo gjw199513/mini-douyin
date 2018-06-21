@@ -70,7 +70,7 @@
     <sql id="Base_Column_List">
     id, author, name, path
   </sql>
-    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imooc.pojo.BgmExample">
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gjw.pojo.BgmExample">
         select
         <if test="distinct">
             distinct
@@ -94,19 +94,19 @@
     delete from bgm
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-    <delete id="deleteByExample" parameterType="com.imooc.pojo.BgmExample">
+    <delete id="deleteByExample" parameterType="com.gjw.pojo.BgmExample">
         delete from bgm
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="com.imooc.pojo.Bgm">
+    <insert id="insert" parameterType="com.gjw.pojo.Bgm">
     insert into bgm (id, author, name, 
       path)
     values (#{id,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{path,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.imooc.pojo.Bgm">
+    <insert id="insertSelective" parameterType="com.gjw.pojo.Bgm">
         insert into bgm
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -137,7 +137,7 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.imooc.pojo.BgmExample" resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.gjw.pojo.BgmExample" resultType="java.lang.Integer">
         select count(*) from bgm
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
@@ -173,7 +173,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.imooc.pojo.Bgm">
+    <update id="updateByPrimaryKeySelective" parameterType="com.gjw.pojo.Bgm">
         update bgm
         <set>
             <if test="author != null">
@@ -188,7 +188,7 @@
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.imooc.pojo.Bgm">
+    <update id="updateByPrimaryKey" parameterType="com.gjw.pojo.Bgm">
     update bgm
     set author = #{author,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},

@@ -19,7 +19,7 @@
     </ul>
 </div>
 
-<h1 class="page-title"> 小慕短视频后台管理系统 </h1>
+<h1 class="page-title"> 迷你抖音后台管理系统 </h1>
 
 <div class="clearfix"></div>
 

@@ -79,7 +79,7 @@
     id, user_id, audio_id, video_desc, video_path, video_seconds, video_width, video_height, 
     cover_path, like_counts, status, create_time
   </sql>
-    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imooc.pojo.VideosExample">
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gjw.pojo.VideosExample">
         select
         <if test="distinct">
             distinct
@@ -103,13 +103,13 @@
     delete from videos
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-    <delete id="deleteByExample" parameterType="com.imooc.pojo.VideosExample">
+    <delete id="deleteByExample" parameterType="com.gjw.pojo.VideosExample">
         delete from videos
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="com.imooc.pojo.Videos">
+    <insert id="insert" parameterType="com.gjw.pojo.Videos">
     insert into videos (id, user_id, audio_id, 
       video_desc, video_path, video_seconds, 
       video_width, video_height, cover_path, 
@@ -121,7 +121,7 @@
       #{likeCounts,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.imooc.pojo.Videos">
+    <insert id="insertSelective" parameterType="com.gjw.pojo.Videos">
         insert into videos
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -200,7 +200,7 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.imooc.pojo.VideosExample" resultType="java.lang.Integer">
+    <select id="countByExample" parameterType="com.gjw.pojo.VideosExample" resultType="java.lang.Integer">
         select count(*) from videos
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
@@ -268,7 +268,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.imooc.pojo.Videos">
+    <update id="updateByPrimaryKeySelective" parameterType="com.gjw.pojo.Videos">
         update videos
         <set>
             <if test="userId != null">
@@ -307,7 +307,7 @@
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.imooc.pojo.Videos">
+    <update id="updateByPrimaryKey" parameterType="com.gjw.pojo.Videos">
     update videos
     set user_id = #{userId,jdbcType=VARCHAR},
       audio_id = #{audioId,jdbcType=VARCHAR},

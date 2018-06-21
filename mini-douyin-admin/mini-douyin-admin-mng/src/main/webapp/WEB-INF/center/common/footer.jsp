@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
-    <div class="page-footer-inner"> 小慕短视频 2018 &copy; All Rights Reserved.
+    <div class="page-footer-inner"> 迷你抖音 2018 &copy; All Rights Reserved.
     </div>
     <div class="scroll-to-top">
         <i class="icon-arrow-up"></i>
