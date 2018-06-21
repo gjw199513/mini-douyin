@@ -12,12 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
-    /**
-     * {@inheritDoc}
-     * <p>This implementation is empty.
-     *
-     * @param registry
-     */
+
     // 将本地文件映射为服务器资源文件
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -25,7 +20,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 // 为swagger加入访问路径
                 .addResourceLocations("classpath:/META-INF/resources/")
                 // 为图片加入访问路径
-                .addResourceLocations("file:G:/java程序/mini-douyin/upload/");
+                .addResourceLocations("file:D:/java程序/mini-douyin/upload/");
     }
 
     // 在spring中，对拦截器进行注册

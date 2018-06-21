@@ -70,7 +70,9 @@ Page({
                     duration: 2000,
                     icon: 'none',
                     success: function() {
-                        wx.navigateBack();
+                        // 延时跳转
+                        setTimeout(function(){wx.navigateBack()},2000)
+                        
                     }
                 })
             }

@@ -224,4 +224,14 @@ Page({
             }
         })
     },
+
+    onShareAppMessage: function(res) {
+        var me = this
+
+        var videoInfo = me.data.videoInfo
+        return {
+            title: '迷你抖音分享',
+            path: '../videoInfo/videoInfo?videoInfo=' + JSON.stringify(videoInfo)
+        }
+    }
 })
