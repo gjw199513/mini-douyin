@@ -31,7 +31,7 @@
                 <div class="caption">
                     <i class="icon-microphone font-dark hide"></i>
                     <span class="caption-subject bold font-dark uppercase"> 平台技术简介</span>
-                    <span class="caption-helper">小程序后台接口  + 短视频后台管理</span>
+                    <span class="caption-helper">小程序后台接口  + 迷你抖音后台管理</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -55,7 +55,7 @@
                 <div class="row" style="margin-top: 15px;">
                     <div class="col-md-12">
                         <div class="mt-widget-3" style="padding-top: 15px;">
-                            <p class="desc"><font style="font-size: 16px;"><b>短视频后台 - 技术选型：</b></font></p>
+                            <p class="desc"><font style="font-size: 16px;"><b>迷你抖音后台 - 技术选型：</b></font></p>
                             <p class="desc">1、核心框架：Spring Framework 4.3.8.RELEASE</p>
                             <p class="desc">2、持久层框架：MyBatis 3.2.8 + pagehelper 4.1.3</p>
                             <p class="desc">3、MariaDB 10.2.6</p>

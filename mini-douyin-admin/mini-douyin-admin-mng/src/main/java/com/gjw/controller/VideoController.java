@@ -1,12 +1,16 @@
 package com.gjw.controller;
 
 import com.gjw.bean.AdminUser;
+import com.gjw.pojo.Bgm;
 import com.gjw.pojo.Users;
 import com.gjw.service.UsersService;
+import com.gjw.service.VideoService;
 import com.gjw.utils.IMoocJSONResult;
 import com.gjw.utils.PagedResult;
+import com.gjw.web.util.ZKCurator;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.n3r.idworker.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,11 +29,39 @@ import java.util.UUID;
 public class VideoController {
 
     @Autowired
-    private UsersService usersService;
+    private VideoService videoService;
+
+
 
     @GetMapping("/showAddBgm")
     public String showList() {
         return "video/addBgm";
+    }
+
+    @PostMapping("/addBgm")
+    @ResponseBody
+    public IMoocJSONResult addBgm(Bgm bgm) {
+        videoService.addBgm(bgm);
+        return IMoocJSONResult.ok();
+    }
+
+    @GetMapping("/showBgmList")
+    public String showBgmList() {
+        return "video/bgmList";
+    }
+
+
+    @PostMapping("/queryBgmList")
+    @ResponseBody
+    public PagedResult queryBgmList(Integer page) {
+        return videoService.queryBgmList(page, 10);
+    }
+
+    @PostMapping("/delBgm")
+    @ResponseBody
+    public IMoocJSONResult delBgm(String bgmId) {
+        videoService.deleteBgm(bgmId);
+        return IMoocJSONResult.ok();
     }
 
     @PostMapping("/bgmUpload")
@@ -38,7 +70,7 @@ public class VideoController {
 
         // 文件保存的命名空间
 //        String fileSpace = File.separator+"java程序"+File.separator+"mini-douyin"+File.separator+"upload";
-        String fileSpace = "G:" + File.separator + "java程序" + File.separator + "mini-douyin" + File.separator + "upload";
+        String fileSpace = "D:" + File.separator + "java程序" + File.separator + "mini-douyin" + File.separator + "upload" + File.separator + "mvc-bgm";
         // 保存到数据库中的相对路径
         String uploadPathDB = File.separator + "bgm";
         FileOutputStream fileOutputStream = null;

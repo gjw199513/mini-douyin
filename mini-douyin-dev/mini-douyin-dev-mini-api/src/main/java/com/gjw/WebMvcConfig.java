@@ -23,6 +23,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("file:D:/java程序/mini-douyin/upload/");
     }
 
+    @Bean(initMethod = "init")
+    public ZKCuratorClient zkCuratorClient() {
+        return new ZKCuratorClient();
+    }
+
     // 在spring中，对拦截器进行注册
     @Bean
     public MiniInterceptor miniInterceptor(){

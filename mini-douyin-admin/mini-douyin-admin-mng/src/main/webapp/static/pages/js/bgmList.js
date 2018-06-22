@@ -43,7 +43,7 @@ var BgmList = function () {
                 {
                     name: 'path', index: 'path', width: 50,
                     formatter: function (cellvalue, option, rowObject) {
-
+                        // 地址和路径拼接，获取播放地址
                         var src = bgmServer + cellvalue;
                         var html = "<a href='" + src + "' target='_blank'>点我播放</a>"
 
