@@ -7,13 +7,16 @@ import com.gjw.mapper.BgmMapper;
 import com.gjw.pojo.Bgm;
 import com.gjw.pojo.BgmExample;
 import com.gjw.service.VideoService;
+import com.gjw.utils.JsonUtils;
 import com.gjw.utils.PagedResult;
 import com.gjw.web.util.ZKCurator;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/6/22.
@@ -30,15 +33,6 @@ public class VideoServiceImpl implements VideoService {
     @Autowired
     private ZKCurator zkCurator;
 
-    @Override
-    public void addBgm(Bgm bgm) {
-        String bgmId = sid.nextShort();
-        bgm.setId(bgmId);
-        bgmMapper.insert(bgm);
-        // 使用zookeeper存入bgm
-        zkCurator.sendBgmOperator(bgmId, BGMOperatorTypeEnum.ADD.type);
-
-    }
 
     @Override
     public PagedResult queryBgmList(Integer page, Integer pageSize) {
@@ -60,8 +54,29 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    public void addBgm(Bgm bgm) {
+        String bgmId = sid.nextShort();
+        bgm.setId(bgmId);
+        bgmMapper.insert(bgm);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("operType", BGMOperatorTypeEnum.ADD.type);
+        map.put("path", bgm.getPath());
+
+        // 使用zookeeper存入bgm
+        zkCurator.sendBgmOperator(bgmId, JsonUtils.objectToJson(map));
+    }
+
+    @Override
     public void deleteBgm(String id) {
+        Bgm bgm = bgmMapper.selectByPrimaryKey(id);
+
         bgmMapper.deleteByPrimaryKey(id);
-        zkCurator.sendBgmOperator(id, BGMOperatorTypeEnum.DELETE.type);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("operType", BGMOperatorTypeEnum.DELETE.type);
+        map.put("path", bgm.getPath());
+
+        zkCurator.sendBgmOperator(id, JsonUtils.objectToJson(map));
     }
 }

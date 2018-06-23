@@ -70,7 +70,7 @@ public class VideoController {
 
         // 文件保存的命名空间
 //        String fileSpace = File.separator+"java程序"+File.separator+"mini-douyin"+File.separator+"upload";
-        String fileSpace = "D:" + File.separator + "java程序" + File.separator + "mini-douyin" + File.separator + "upload" + File.separator + "mvc-bgm";
+        String fileSpace = "G:" + File.separator + "java程序" + File.separator + "mini-douyin" + File.separator + "upload" + File.separator + "mvc-bgm";
         // 保存到数据库中的相对路径
         String uploadPathDB = File.separator + "bgm";
         FileOutputStream fileOutputStream = null;
